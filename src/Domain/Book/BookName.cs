@@ -3,7 +3,7 @@
     public record BookName
     {
         public string Name { get; }
-        public BookName(string name)
+        private BookName(string name)
         {
             Name = name;
         }
