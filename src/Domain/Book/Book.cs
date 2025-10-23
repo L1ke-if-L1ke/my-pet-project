@@ -5,7 +5,7 @@
         public BookId Id { get; }
         public BookGenre Title { get; private set; }
 
-        public BookName Name { get; private set}
+        public BookName Name { get; private set; }
         public DateOfWritingBook DateOfWritingBook { get; private set; }
         public SwapBook.SwapBook? SwapBook { get; }
         public Book(BookId id, BookGenre title, BookName name, DateOfWritingBook dateOfWritingBook)

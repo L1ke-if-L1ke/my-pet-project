@@ -6,7 +6,6 @@
 
         public DateOfWritingBook(DateOnly date)
         {
-
             Date = date;
         }
     }

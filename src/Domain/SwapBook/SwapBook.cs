@@ -1,5 +1,4 @@
-﻿using AspireApp1.ServiceDefaults.SwapBook;
-
+﻿
 namespace Domain.SwapBook
 {
     public class SwapBook

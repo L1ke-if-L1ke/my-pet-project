@@ -1,5 +1,4 @@
-﻿using AspireApp1.ServiceDefaults.CatalogBook;
-
+﻿
 namespace Domain.CatalogBook
 {
     public record CatalogBook

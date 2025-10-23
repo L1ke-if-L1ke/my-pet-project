@@ -8,12 +8,11 @@
             List<UserWish> Wishlist = [];
         public UserRegistrationDate RegistrationDate { get; private set; }
         List<SwapBook.SwapBook> SwapBookList = [];
-        public User(UserId id, UserContact email, UserContact phone, UserWish wishlist, UserRegistrationDate registrationDate)
+        public User(UserId id, UserContact email, UserContact phone, UserRegistrationDate registrationDate)
         {
             Id = id;
             Email = email;
             Phone = phone;
-            Wishlist = wishlist;
             RegistrationDate = registrationDate;
         }
     }

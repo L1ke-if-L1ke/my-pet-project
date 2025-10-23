@@ -2,10 +2,10 @@
 {
     public record UserId
     {
-        public Guid UserId { get; }
+        public Guid userId { get; }
         public UserId(Guid id)
         {
-            UserId = id;
+            userId = id;
         }
     }
 }
