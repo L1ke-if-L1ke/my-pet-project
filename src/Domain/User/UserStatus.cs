@@ -3,17 +3,8 @@ using System.Reflection;
 
 namespace Domain.User
 {
-    public sealed class UserStatusWithoutBook : UserStatus
-    {
-        public UserStatusWithoutBook(int key, string name) : base(0, "Без книги") { }
-        public override bool CanExecuteAction() => false;
 
-    }
-    public sealed class UserStatusWithBook : UserStatus
-    {
-        public UserStatusWithBook(int key, string name) : base(1, "С книгой") { }
-        public override bool CanExecuteAction() => true;
-    }
+
     public abstract class UserStatus : Enumeration<UserStatus>
     {
         protected UserStatus(int key, string name) : base(key, name) { }
