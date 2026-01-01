@@ -1,4 +1,4 @@
-﻿namespace Domain.ProjectContexts.Entities
+﻿namespace Infrastructure.ProjectContexts.Entities
 {
     public readonly record struct ProjectTaskId
     {

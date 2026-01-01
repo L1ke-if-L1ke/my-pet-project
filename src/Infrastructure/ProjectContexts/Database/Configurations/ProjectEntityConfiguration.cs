@@ -3,7 +3,7 @@ using Domain.ProjectContexts.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Domain.Database.Configurations
+namespace Infrastructure.Database.Configurations
 {
     //наследуем интерфейс IEntityTypeConfiguration<T>.
     //в Generic аргументе устанавливаем класс, который конфигурируем

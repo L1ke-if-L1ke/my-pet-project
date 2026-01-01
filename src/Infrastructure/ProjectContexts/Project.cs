@@ -1,6 +1,6 @@
-﻿using Domain.ProjectContexts.Entities;
+﻿using Infrastructure.ProjectContexts.Entities;
 
-namespace Domain.ProjectContexts
+namespace Infrastructure.ProjectContexts
 {
     /// <summary>
     /// Проект

@@ -1,4 +1,4 @@
-﻿namespace Domain.ProjectContexts.Entities
+﻿namespace Infrastructure.ProjectContexts.Entities
 {
     /// <summary>
     /// Задача проекта

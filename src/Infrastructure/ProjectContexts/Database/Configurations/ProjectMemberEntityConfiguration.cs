@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Domain.ProjectContexts.Entities;
 
-namespace Domain.Database.Configurations
+namespace Infrastructure.Database.Configurations
 {
     public sealed class ProjectMemberEntityConfiguration : IEntityTypeConfiguration<ProjectTaskMemberInfo>
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Domain.Database.Configurations
+namespace Infrastructure.Database.Configurations
 {
     public sealed class ProjectTaskEntityConfiguration : IEntityTypeConfiguration<ProjectTask>
     {
