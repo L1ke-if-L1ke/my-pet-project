@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.ProjectContexts.Entities
+﻿namespace Domain.ProjectContexts.Entities
 {
     public sealed record ProjectTaskStatus
     {
