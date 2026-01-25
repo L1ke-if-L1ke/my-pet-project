@@ -1,17 +1,14 @@
-﻿using Infrastructure.Common;
+﻿WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
-DatabaseConnectionOptions? connectionOptions = builder
-    .Configuration.GetSection(nameof(DatabaseConnectionOptions))
-    .Get<DatabaseConnectionOptions>();
-
-if (connectionOptions == null)
-    throw new ArgumentException();
-
-Console.WriteLine(connectionOptions.DatabaseName);
-Console.WriteLine(connectionOptions.UserName);
-Console.WriteLine(connectionOptions.Password);
-Console.WriteLine(connectionOptions.HostName);
 
 WebApplication app = builder.Build();
+
+app.MapControllers();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.Run();
