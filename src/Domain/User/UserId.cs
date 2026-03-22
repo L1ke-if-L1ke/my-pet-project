@@ -1,4 +1,5 @@
-﻿namespace Domain.User
+﻿
+namespace Domain.User
 {
     public record UserId
     {
