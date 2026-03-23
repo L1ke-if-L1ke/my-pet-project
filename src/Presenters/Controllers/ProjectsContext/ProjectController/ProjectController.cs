@@ -1,4 +1,5 @@
-﻿using Domain.ProjectContexts;
+﻿using System.Net;
+using Domain.ProjectContexts;
 using Domain.ProjectContexts.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Presenters.Common;
@@ -65,7 +66,7 @@ public class ProjectsController : ControllerBase
         if (project is null)
         {
             _logger.LogWarning("Project not found: {Id}", id);
-            return NotFound(Envelope.ErrorResponse(404, $"Project with id {id} not found"));
+            return NotFound(Envelope.ErrorResponse(HttpStatusCode.NotFound, $"Project with id {id} not found"));
         }
 
         return Ok(Envelope.Ok(ProjectDto.FromEntity(project)));
@@ -89,12 +90,12 @@ public class ProjectsController : ControllerBase
         // Валидация
         if (string.IsNullOrWhiteSpace(request.Name))
         {
-            return BadRequest(Envelope.ErrorResponse(400, "Project name is required"));
+            return BadRequest(Envelope.ErrorResponse(HttpStatusCode.BadRequest, "Project name is required"));
         }
 
         if (string.IsNullOrWhiteSpace(request.Description))
         {
-            return BadRequest(Envelope.ErrorResponse(400, "Project description is required"));
+            return BadRequest(Envelope.ErrorResponse(HttpStatusCode.BadRequest, "Project description is required"));
         }
 
         try
@@ -119,7 +120,7 @@ public class ProjectsController : ControllerBase
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(Envelope.ErrorResponse(400, ex.Message));
+            return BadRequest(Envelope.ErrorResponse(HttpStatusCode.BadRequest, ex.Message));
         }
     }
 
@@ -142,7 +143,7 @@ public class ProjectsController : ControllerBase
         var existing = await _repository.GetByIdAsync(id, ct);
         if (existing is null)
         {
-            return NotFound(Envelope.ErrorResponse(404, $"Project with id {id} not found"));
+            return NotFound(Envelope.ErrorResponse(HttpStatusCode.NotFound, $"Project with id {id} not found"));
         }
 
         try
@@ -163,7 +164,7 @@ public class ProjectsController : ControllerBase
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(Envelope.ErrorResponse(400, ex.Message));
+            return BadRequest(Envelope.ErrorResponse(HttpStatusCode.BadRequest, ex.Message));
         }
     }
 
@@ -185,8 +186,9 @@ public class ProjectsController : ControllerBase
 
         var existing = await _repository.GetByIdAsync(id, ct);
         if (existing is null)
+
         {
-            return NotFound(Envelope.ErrorResponse(404, $"Project with id {id} not found"));
+            return NotFound(Envelope.ErrorResponse(HttpStatusCode.NotFound, $"Project with id {id} not found"));
         }
 
         try
@@ -216,7 +218,7 @@ public class ProjectsController : ControllerBase
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(Envelope.ErrorResponse(400, ex.Message));
+            return BadRequest(Envelope.ErrorResponse(HttpStatusCode.BadRequest, ex.Message));
         }
     }
     /// 
@@ -230,7 +232,7 @@ public class ProjectsController : ControllerBase
         var deleted = await _repository.DeleteAsync(id, ct);
         if (!deleted)
         {
-            return NotFound(Envelope.ErrorResponse(404, $"Project with id {id} not found"));
+            return NotFound(Envelope.ErrorResponse(HttpStatusCode.NotFound, $"Project with id {id} not found"));
         }
 
         _logger.LogInformation("Project deleted: {Id}", id);

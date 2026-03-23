@@ -1,4 +1,5 @@
-﻿namespace Presenters.Common;
+﻿using System.Net;
+namespace Presenters.Common;
 
 /// <summary>
 /// Универсальная обёртка для всех ответов API.
@@ -22,8 +23,8 @@ public class Envelope<T>
         Error = error;
     }
 
-    public static Envelope<T> Ok(T? data) => new(data, 200);
-    public static Envelope<T> ErrorResponse(int status, string message) => new(status, message);
+    public static Envelope<T> Ok(T? data) => new(data, (int)HttpStatusCode.OK);
+    public static Envelope<T> ErrorResponse(HttpStatusCode status, string message) => new((int)status, message);
 }
 
 /// <summary>
@@ -34,6 +35,6 @@ public class Envelope : Envelope<object?>
     public Envelope(object? result, int status = 200) : base(result, status) { }
     public Envelope(int status, string error) : base(status, error) { }
 
-    public new static Envelope Ok(object? data) => new(data, 200);
-    public new static Envelope ErrorResponse(int status, string message) => new(status, message);
+    public new static Envelope Ok(object? data) => new(data, (int)HttpStatusCode.OK);
+    public new static Envelope ErrorResponse(HttpStatusCode status, string message) => new ((int)status, message);
 }
