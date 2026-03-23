@@ -1,9 +1,12 @@
 ﻿using Microsoft.OpenApi.Models;
+using System.Reflection;
 using Infrastructure;
+using UseCases;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure();
+builder.Services.AddApplication();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -14,6 +17,10 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Project API",
         Version = "v1"
     });
+    // Подключаем XML-комментарии из кода
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
 });
 
 var app = builder.Build();
