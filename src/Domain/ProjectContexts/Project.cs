@@ -37,6 +37,11 @@ namespace Domain.ProjectContexts
         /// </summary>
         public IReadOnlyList<ProjectTask> Tasks => _tasks;
 
+        // для EF Core
+        protected Project()
+        {
+            
+        }
         public Project(
             ProjectId id,
             ProjectLifeTime lifeTime,

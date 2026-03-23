@@ -45,6 +45,12 @@
         /// </summary>
         public IReadOnlyList<ProjectTaskMemberInfo> TaskMembers => _taskMembers;
 
+        // Для EF Core
+        protected ProjectTask()
+        {
+
+        }
+
         public ProjectTask(
             ProjectTaskId id,
             ProjectTaskMembersLimit limit,
