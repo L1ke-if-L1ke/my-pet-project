@@ -22,14 +22,5 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\BookContext\BookController\" />
-    <Folder Include="Controllers\CatalogContext\CatalogController\" />
-    <Folder Include="Controllers\BookContext\" />
-    <Folder Include="Controllers\CatalogContext\" />
-    <Folder Include="Controllers\SwapContext\" />
-    <Folder Include="Controllers\SwapContext\SwapController\" />
-    <Folder Include="Controllers\UserContext\UserController\" />
-  </ItemGroup>
 
 </Project>
