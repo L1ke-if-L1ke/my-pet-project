@@ -2,6 +2,8 @@
 using Domain.ProjectContexts.Entities;
 using Microsoft.EntityFrameworkCore;
 using YourProject.Domain.Interfaces;
+namespace Infrastructure.Persistence;
+
 
 public class EfProjectRepository : IProjectRepository
 {

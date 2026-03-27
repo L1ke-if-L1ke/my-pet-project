@@ -4,25 +4,22 @@ using Microsoft.Extensions.Options;
 using YourProject.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Common;
+using Infrastructure.Persistence;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
-namespace Infrastructure;
 
+namespace Infrastructure;
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration config)
     {
-        services.Configure<DatabaseOptions>(options =>
-        {
-            options.ConnectionString = config.GetConnectionString("Postgres")!;
-        });
+        // Регистрируем опции БД из секции "Database"
+        services.Configure<DatabaseConnectionOptions>(config.GetSection("Database"));
 
-        services.AddDbContext<ApplicationDbContext>((sp, options) =>
-        {
-            var dbOptions = sp.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-
-            options.UseNpgsql(dbOptions.ConnectionString);
-        });
+        // Регистрируем DbContext — он получит IOptions<> через DI
+        services.AddDbContext<ApplicationDbContext>();
 
         services.AddScoped<IProjectRepository, EfProjectRepository>();
 
