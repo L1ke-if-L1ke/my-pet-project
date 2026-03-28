@@ -13,7 +13,7 @@
         /// <summary>
         /// Идентификатор проекта
         /// </summary>
-        public ProjectId ProjectId { get; }
+        public ProjectId ProjectId { get; private set; }
 
         /// <summary>
         /// Участники задачи
@@ -23,22 +23,22 @@
         /// <summary>
         /// Идентификатор задачи
         /// </summary>
-        public ProjectTaskId Id { get; }
+        public ProjectTaskId Id { get; private set; }
 
         /// <summary> 
         /// Лимит участников задачи
         /// </summary>
-        public ProjectTaskMembersLimit Limit { get; }
+        public ProjectTaskMembersLimit Limit { get; private set; }
 
         /// <summary>
         /// Статус задачи
         /// </summary>
-        public ProjectTaskStatusInfo StatusInfo { get; }
+        public ProjectTaskStatusInfo StatusInfo { get; private set; }
 
         /// <summary>
         /// Информация о задаче
         /// </summary>
-        public ProjectTaskInfo Information { get; }
+        public ProjectTaskInfo Information { get; private set; }
 
         /// <summary>
         /// Участники задачи (коллекция только для чтения)
@@ -67,6 +67,37 @@
             Limit = limit;
             Information = information;
             StatusInfo = statusInfo;
+        }
+        // -----------------------------
+        // Методы управления задачей
+        // -----------------------------
+
+        public void ChangeInformation(ProjectTaskInfo newInfo)
+        {
+            if (newInfo == null)
+                throw new ArgumentNullException(nameof(newInfo));
+
+            Information = newInfo;
+        }
+
+        public void AddMember(ProjectTaskMemberInfo member)
+        {
+            if (_taskMembers.Count >= Limit.Value)
+                throw new InvalidOperationException("Task member limit reached");
+
+            if (_taskMembers.Any(m => m.MemberId == member.MemberId))
+                throw new ArgumentException("Member already exists in task", nameof(member));
+
+            _taskMembers.Add(member);
+        }
+
+        public void RemoveMember(ProjectMemberId memberId)
+        {
+            var member = _taskMembers.FirstOrDefault(m => m.MemberId == memberId);
+            if (member == null)
+                throw new KeyNotFoundException($"Member {memberId.Value} not found in task");
+
+            _taskMembers.Remove(member);
         }
     }
 }

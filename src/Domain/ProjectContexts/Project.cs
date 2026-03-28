@@ -56,5 +56,71 @@ namespace Domain.ProjectContexts
             Description = description;
             Name = name;
         }
+        // -----------------------------
+        // Методы для управления задачами
+        // -----------------------------
+
+        public void AddTask(string description, int membersLimit)
+        {
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("Task description cannot be empty", nameof(description));
+
+            if (membersLimit <= 0)
+                throw new ArgumentException("Members limit must be positive", nameof(membersLimit));
+
+            var task = new ProjectTask(
+                id: ProjectTaskId.Create(Guid.NewGuid()),
+                limit: ProjectTaskMembersLimit.Create(membersLimit),
+                statusInfo: ProjectTaskStatusInfo.Create("Created", "created"),
+                information: ProjectTaskInfo.Create(description),
+                project: this,
+                taskMembers: Array.Empty<ProjectTaskMemberInfo>()
+            );
+
+            _tasks.Add(task);
+        }
+
+        public void AddMemberToTask(
+             Guid taskId,
+             string email,
+             string login
+            )
+        {
+            var task = _tasks.FirstOrDefault(t => t.Id.Value == taskId)
+                ?? throw new KeyNotFoundException($"Task {taskId} not found");
+
+            var member = ProjectTaskMemberInfo.Create(
+                ProjectMemberId.Create(Guid.NewGuid()),
+                email,
+                login
+            );
+
+            task.AddMember(member);
+        }
+
+        public void RemoveMemberFromTask(Guid taskId, ProjectMemberId memberId)
+        {
+            var task = _tasks.FirstOrDefault(t => t.Id.Value == taskId)
+                ?? throw new KeyNotFoundException($"Task {taskId} not found");
+
+            task.RemoveMember(memberId);
+        }
+
+        public void ChangeTaskInfo(Guid taskId, string description)
+        {
+            var task = _tasks.FirstOrDefault(t => t.Id.Value == taskId)
+                ?? throw new KeyNotFoundException($"Task {taskId} not found");
+
+            var info = ProjectTaskInfo.Create(description);
+            task.ChangeInformation(info);
+        }
+        public void RemoveTask(Guid taskId)
+        {
+            var task = _tasks.FirstOrDefault(t => t.Id.Value == taskId)
+                ?? throw new KeyNotFoundException($"Task {taskId} not found");
+
+            _tasks.Remove(task);
+        }
+
     }
 }

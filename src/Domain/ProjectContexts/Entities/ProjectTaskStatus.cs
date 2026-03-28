@@ -9,6 +9,7 @@
             Name = name;
             Value = value;
         }
+
         private ProjectTaskStatus() { } // Для EF
     }
 }

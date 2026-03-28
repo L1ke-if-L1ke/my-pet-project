@@ -6,7 +6,11 @@ using UseCases.Projects.GetAllProjects;
 using UseCases.Projects.GetProjectById;
 using UseCases.Projects.RenameProject;
 using UseCases.Projects.ReplaceProject;
-
+using UseCases.Projects.Tasks.ChangeTaskInfo;
+using UseCases.Projects.Tasks.CreateTask;
+using UseCases.Projects.Tasks.DeleteTask;
+using UseCases.Projects.TaskMembers.AddMember;
+using UseCases.Projects.TaskMembers.RemoveMember;
 namespace UseCases;
 
 /// <summary>
@@ -22,6 +26,12 @@ public static class DependencyInjection
         services.AddTransient<RenameProjectCommandHandler>();
         services.AddTransient<ChangeProjectDescriptionCommandHandler>();
         services.AddTransient<DeleteProjectCommandHandler>();
+        services.AddTransient<CreateTaskCommandHandler>();
+        services.AddTransient<DeleteTaskCommandHandler>();
+        services.AddTransient<ChangeTaskInfoCommandHandler>();
+
+        services.AddTransient<AddTaskMemberCommandHandler>();
+        services.AddTransient<RemoveTaskMemberCommandHandler>();
 
         // Хэндлеры запросов
         services.AddTransient<GetAllProjectsQueryHandler>();

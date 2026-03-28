@@ -11,6 +11,16 @@
             Status = status;
             Schedule = schedule;
         }
+        public static ProjectTaskStatusInfo Create(
+            string statusName,
+            string statusValue
+        )
+        {
+            return new ProjectTaskStatusInfo(
+                new ProjectTaskStatus(statusName, statusValue),
+                new ProjectTaskSchedule(DateTime.UtcNow, null)
+            );
+        }
 
         // Для EF Core
         private ProjectTaskStatusInfo() { }

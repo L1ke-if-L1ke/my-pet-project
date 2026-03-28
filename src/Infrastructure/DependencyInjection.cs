@@ -5,6 +5,7 @@ using YourProject.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Common;
 using Infrastructure.Persistence;
+using Infrastructure.Repositories;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 
