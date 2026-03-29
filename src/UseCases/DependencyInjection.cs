@@ -29,7 +29,6 @@ public static class DependencyInjection
         services.AddTransient<CreateTaskCommandHandler>();
         services.AddTransient<DeleteTaskCommandHandler>();
         services.AddTransient<ChangeTaskInfoCommandHandler>();
-
         services.AddTransient<AddTaskMemberCommandHandler>();
         services.AddTransient<RemoveTaskMemberCommandHandler>();
 
