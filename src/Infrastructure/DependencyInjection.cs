@@ -1,12 +1,15 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using YourProject.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.Interfaces;
 using Infrastructure.Common;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using UseCases.Interfaces;
+using Infrastructure.Transactions;  
+using YourProject.Domain.Interfaces;
 
 
 namespace Infrastructure;
@@ -16,13 +19,16 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration config)
     {
-        // Регистрируем опции БД из секции "Database"
         services.Configure<DatabaseConnectionOptions>(config.GetSection("Database"));
 
-        // Регистрируем DbContext — он получит IOptions<> через DI
-        services.AddDbContext<ApplicationDbContext>();
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            // Конфигурация будет применена в OnConfiguring
+        });
 
         services.AddScoped<IProjectRepository, EfProjectRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();           
+        services.AddScoped<ITransactionFactory, TransactionFactory>(); 
 
         return services;
     }

@@ -1,5 +1,7 @@
-﻿using Domain.ProjectContexts;
+﻿using Domain.Interfaces;
+using Domain.ProjectContexts;
 using Domain.ProjectContexts.Entities;
+using UseCases.Interfaces;
 using YourProject.Domain.Interfaces;
 
 namespace UseCases.Projects.CreateProject;
@@ -7,14 +9,24 @@ namespace UseCases.Projects.CreateProject;
 public sealed class CreateProjectCommandHandler
 {
     private readonly IProjectRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;              
+    private readonly ITransactionFactory _transactionFactory;
 
-    public CreateProjectCommandHandler(IProjectRepository repository)
+    public CreateProjectCommandHandler(
+        IProjectRepository repository,
+        IUnitOfWork unitOfWork,                           
+        ITransactionFactory transactionFactory)           
     {
         _repository = repository;
+        _unitOfWork = unitOfWork;
+        _transactionFactory = transactionFactory;
     }
 
     public async Task<Project> Handle(CreateProjectCommand command, CancellationToken ct)
     {
+        // Начинаем транзакцию
+        await using var tx = await _transactionFactory.CreateAsync(ct);
+
         // Валидация домена
         var name = ProjectName.Create(command.Name);
         var description = ProjectDescription.Create(command.Description);
@@ -28,6 +40,12 @@ public sealed class CreateProjectCommandHandler
         );
 
         await _repository.AddAsync(project, ct);
+
+        // Сохраняем через Unit of Work
+        await _unitOfWork.SaveChangesAsync(ct);
+
+        // Коммитим транзакцию
+        await tx.CommitAsync(ct);
 
         return project;
     }

@@ -1,4 +1,5 @@
 ﻿using Domain.ProjectContexts;
+using Domain.ProjectContexts.Entities;
 
 namespace YourProject.Domain.Interfaces;
 
@@ -10,6 +11,7 @@ public interface IProjectRepository
     Task<List<Project>> GetAllAsync(CancellationToken ct = default);
     Task<Project?> GetByIdAsync(Guid id, CancellationToken ct = default);
     Task AddAsync(Project project, CancellationToken ct = default);
-    Task<bool> UpdateAsync(Project project, CancellationToken ct = default);
-    Task<bool> DeleteAsync(Guid id, CancellationToken ct = default);
+    Task UpdateAsync(Project project, CancellationToken ct = default); // без bool
+    Task DeleteAsync(Project project, CancellationToken ct = default); // передаём сущность, не Guid
+    Task<Project?> GetByIdWithLockAsync(Guid id, CancellationToken ct);
 }
