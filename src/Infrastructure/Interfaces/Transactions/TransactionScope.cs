@@ -6,24 +6,36 @@ namespace Infrastructure.Transactions
 {
     public sealed class TransactionScope : ITransactionScope
     {
-        private readonly ApplicationDbContext _context;
         private readonly IDbContextTransaction _transaction;
         private bool _isDisposed;
 
-        public TransactionScope(ApplicationDbContext context, IDbContextTransaction transaction)
+        public TransactionScope(IDbContextTransaction transaction)
         {
-            _context = context;
             _transaction = transaction;
         }
 
         public async Task CommitAsync(CancellationToken ct = default)
         {
-            await _transaction.CommitAsync(ct);
+            try
+            {
+                await _transaction.CommitAsync(ct);
+            }
+            finally
+            {
+                await DisposeAsync(); // Гарантированно освобождаем ресурсы, даже если коммит упал
+            }
         }
 
         public async Task RollbackAsync(CancellationToken ct = default)
         {
-            await _transaction.RollbackAsync(ct);
+            try
+            {
+                await _transaction.RollbackAsync(ct);
+            }
+            finally
+            {
+                await DisposeAsync();
+            }
         }
 
         public async ValueTask DisposeAsync()
