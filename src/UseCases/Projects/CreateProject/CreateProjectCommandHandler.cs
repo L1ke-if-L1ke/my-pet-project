@@ -10,23 +10,16 @@ public sealed class CreateProjectCommandHandler
 {
     private readonly IProjectRepository _repository;
     private readonly IUnitOfWork _unitOfWork;              
-    private readonly ITransactionFactory _transactionFactory;
-
     public CreateProjectCommandHandler(
         IProjectRepository repository,
-        IUnitOfWork unitOfWork,                           
-        ITransactionFactory transactionFactory)           
+        IUnitOfWork unitOfWork)           
     {
         _repository = repository;
         _unitOfWork = unitOfWork;
-        _transactionFactory = transactionFactory;
     }
 
     public async Task<Project> Handle(CreateProjectCommand command, CancellationToken ct)
     {
-        // Начинаем транзакцию
-        await using var tx = await _transactionFactory.CreateAsync(ct);
-
         // Валидация домена
         var name = ProjectName.Create(command.Name);
         var description = ProjectDescription.Create(command.Description);
@@ -43,9 +36,6 @@ public sealed class CreateProjectCommandHandler
 
         // Сохраняем через Unit of Work
         await _unitOfWork.SaveChangesAsync(ct);
-
-        // Коммитим транзакцию
-        await tx.CommitAsync(ct);
 
         return project;
     }
