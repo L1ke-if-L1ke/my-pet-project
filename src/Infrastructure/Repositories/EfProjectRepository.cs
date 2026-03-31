@@ -38,12 +38,7 @@ public sealed class EfProjectRepository : IProjectRepository
         await _context.Projects.AddAsync(project, ct);
     // без SaveChanges
 
-    public Task UpdateAsync(Project project, CancellationToken ct = default)
-    {
-        _context.Projects.Update(project);
-        return Task.CompletedTask;
-    }
-    // без SaveChanges
+
     public Task DeleteAsync(Project project, CancellationToken ct = default)
     {
         _context.Projects.Remove(project);

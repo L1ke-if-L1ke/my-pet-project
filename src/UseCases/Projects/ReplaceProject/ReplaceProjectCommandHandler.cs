@@ -27,7 +27,6 @@ public sealed class ReplaceProjectCommandHandler
             tasks: existing.Tasks // задачи сохраняем
         );
 
-        await _repository.UpdateAsync(replaced, ct);
         return replaced;
     }
 }

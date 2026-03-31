@@ -22,7 +22,5 @@ public sealed class ChangeTaskInfoCommandHandler
             taskId: command.TaskId,
             description: command.Description
         );
-
-        await _repository.UpdateAsync(project, ct);
     }
 }

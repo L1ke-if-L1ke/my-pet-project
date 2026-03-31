@@ -33,9 +33,6 @@ public sealed class AddTaskMemberCommandHandler
         //  Выполняем доменную логику
         project.AddMemberToTask(command.TaskId, command.Email, command.Login);
 
-        // КРИТИЧНО: явно сообщаем контексту, что агрегат изменён
-        // (для вложенных owned-коллекций это обязательно)
-        await _repository.UpdateAsync(project, ct);
 
         // Сохраняем и коммитим
         await _unitOfWork.SaveChangesAsync(ct);

@@ -31,7 +31,6 @@ public sealed class CreateTaskCommandHandler
 
         project.AddTask(command.Description, command.MembersLimit);
 
-        await _repository.UpdateAsync(project, ct);
         await _unitOfWork.SaveChangesAsync(ct); // Сохранение через UoW
 
         await tx.CommitAsync(ct); // Коммит

@@ -19,7 +19,5 @@ public sealed class DeleteTaskCommandHandler
             throw new KeyNotFoundException($"Project {command.ProjectId} not found");
 
         project.RemoveTask(command.TaskId);
-
-        await _repository.UpdateAsync(project, ct);
     }
 }
