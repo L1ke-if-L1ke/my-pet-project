@@ -22,7 +22,7 @@ public static class MigrationExtensions
         }
         catch (Exception ex)
         {
-            app.Logger.LogError(ex, "Failed to apply database migrations");  // Лог ошибки с эксепшеном
+            app.Logger.LogError(ex, "Failed to apply database migrations");  // gЛог ошибки с эксепшеном
         }
     }
 }

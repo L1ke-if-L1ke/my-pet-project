@@ -13,7 +13,7 @@ namespace Infrastructure.Transactions
         public async Task<ITransactionScope> CreateAsync(CancellationToken ct = default)
         {
             var transaction = await _context.Database.BeginTransactionAsync(ct);
-            return new TransactionScope(_context, transaction);
+            return new TransactionScope(transaction);
         }
     }
 }
