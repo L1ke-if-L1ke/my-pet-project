@@ -34,5 +34,13 @@ namespace Infrastructure.Transactions
                 _isDisposed = true;
             }
         }
+        public void Dispose()  // Синхронный Dispose для совместимости
+        {
+            if (!_isDisposed)
+            {
+                _transaction.Dispose();  // Синхронная версия
+                _isDisposed = true;
+            }
+        }
     }
 }
