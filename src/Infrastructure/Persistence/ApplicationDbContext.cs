@@ -1,7 +1,8 @@
 ﻿using Domain.ProjectContexts;
 using Domain.ProjectContexts.Entities;
-using Microsoft.EntityFrameworkCore;
 using Infrastructure.Common;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Persistence;
@@ -29,7 +30,9 @@ public class ApplicationDbContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             var connectionString = _dbOptions.CreateConnectionString();
-            optionsBuilder.UseNpgsql(connectionString);
+            optionsBuilder
+                .UseNpgsql(connectionString)
+                .LogTo(Console.WriteLine, LogLevel.Information); // Логирование SQL
         }
     }
 

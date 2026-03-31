@@ -1,5 +1,7 @@
-﻿using Domain.ProjectContexts;
+﻿using Domain.Interfaces;
+using Domain.ProjectContexts;
 using Domain.ProjectContexts.Entities;
+using UseCases.Interfaces;
 using YourProject.Domain.Interfaces;
 
 namespace UseCases.Projects.CreateProject;
@@ -7,10 +9,13 @@ namespace UseCases.Projects.CreateProject;
 public sealed class CreateProjectCommandHandler
 {
     private readonly IProjectRepository _repository;
-
-    public CreateProjectCommandHandler(IProjectRepository repository)
+    private readonly IUnitOfWork _unitOfWork;              
+    public CreateProjectCommandHandler(
+        IProjectRepository repository,
+        IUnitOfWork unitOfWork)           
     {
         _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Project> Handle(CreateProjectCommand command, CancellationToken ct)
@@ -28,6 +33,9 @@ public sealed class CreateProjectCommandHandler
         );
 
         await _repository.AddAsync(project, ct);
+
+        // Сохраняем через Unit of Work
+        await _unitOfWork.SaveChangesAsync(ct);
 
         return project;
     }

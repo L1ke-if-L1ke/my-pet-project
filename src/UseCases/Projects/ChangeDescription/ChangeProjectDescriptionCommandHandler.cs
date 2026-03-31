@@ -26,7 +26,6 @@ public sealed class ChangeProjectDescriptionCommandHandler
             tasks: project.Tasks
         );
 
-        await _repository.UpdateAsync(updated, ct);
         return updated;
     }
 }

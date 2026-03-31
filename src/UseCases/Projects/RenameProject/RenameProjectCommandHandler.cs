@@ -28,7 +28,6 @@ public sealed class RenameProjectCommandHandler
             tasks: project.Tasks
         );
 
-        await _repository.UpdateAsync(renamed, ct);
         return renamed;
     }
 }

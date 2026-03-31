@@ -23,7 +23,5 @@ public sealed class RemoveTaskMemberCommandHandler
             taskId: command.TaskId,
             memberId: ProjectMemberId.Create(command.MemberId)
         );
-
-        await _repository.UpdateAsync(project, ct);
     }
 }

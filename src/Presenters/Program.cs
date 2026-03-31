@@ -1,7 +1,10 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.DependencyInjection;  // Для IServiceCollection
+using Microsoft.AspNetCore.Builder;              // Для WebApplication (на всякий случай)
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Infrastructure;
 using UseCases;
+using Presenters.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,5 +37,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+await app.ApplyMigrationsAsync(); // Применение миграций
 
 app.Run();
