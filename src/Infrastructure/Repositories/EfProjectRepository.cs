@@ -49,14 +49,27 @@ public sealed class EfProjectRepository : IProjectRepository
     // Метод для пессимистической блокировки
     public async Task<Project?> GetByIdWithLockAsync(Guid id, CancellationToken ct = default)
     {
+        // 1. Сначала пытаемся получить агрегат
         var projectId = ProjectId.Create(id);
+        var project = await _context.Projects
+            .AsSplitQuery()
+            .Include(p => p.Tasks)
+            .ThenInclude(t => t.TaskMembers)
+            .FirstOrDefaultAsync(p => p.Id == projectId, ct);
+
+        // 2. Если не найден — ранний возврат (не нужно блокировать несуществующее)
+        if (project == null)
+            return null;
+
+        // 3. Только если нашли — применяем пессимистическую блокировку
         // FOR UPDATE — блокировка строки на уровне БД
         await _context.Database.ExecuteSqlInterpolatedAsync(
             $"SELECT 1 FROM projects WHERE id = {id} FOR UPDATE",
             ct
         );
 
-        return await GetByIdAsync(id, ct); // После блокировки загружаем агрегат
+        // 4. Возвращаем уже загруженный и заблокированный агрегат
+        return project;
     }
 
 }
